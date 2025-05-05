@@ -1,10 +1,11 @@
 
 import time
 
-from ..settings import urls, TEST_DATA_USER
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+
 from ..utils import generate_user_data, write_file_create_user
+from ..settings import urls, TEST_DATA_USER
+from ..locators import RegistrationPage
 
 
 class TestRegistrationUser:
@@ -20,10 +21,11 @@ class TestRegistrationUser:
             "password": TEST_DATA_USER["created"]['password']
         }
         browser_def.get(urls["register"])
-        name, email, password = browser_def.find_elements(
-            By.CLASS_NAME, "text.input__textfield.text_type_main-default")
-        form_button = browser_def.find_element(
-            By.XPATH, ".//button[text()='Зарегистрироваться']")
+
+        name = browser_def.find_element(*RegistrationPage.name)
+        email = browser_def.find_element(*RegistrationPage.email)
+        password = browser_def.find_element(*RegistrationPage.password)
+        button = browser_def.find_element(*RegistrationPage.register)
 
         while True:
             name.clear()
@@ -32,11 +34,10 @@ class TestRegistrationUser:
             name.send_keys(user_data['username'])
             email.send_keys(user_data['email'])
             password.send_keys(user_data['password'])
-            form_button.click()
+            button.click()
             time.sleep(1)
             try:
-                browser_def.find_element(
-                    By.CLASS_NAME, "input__error.text_type_main-default")
+                browser_def.find_element(*RegistrationPage.err_already_there)
                 user_data = generate_user_data()
             except NoSuchElementException:
                 break
@@ -52,15 +53,13 @@ class TestRegistrationUser:
         с паролем из 5 символов.
         """
         browser_def.get(urls["register"])
-        name, email, password = browser_def.find_elements(
-            By.CLASS_NAME, "text.input__textfield.text_type_main-default")
-
+        name = browser_def.find_element(*RegistrationPage.name)
+        email = browser_def.find_element(*RegistrationPage.email)
+        password = browser_def.find_element(*RegistrationPage.password)
+        button = browser_def.find_element(*RegistrationPage.register)
         name.send_keys(TEST_DATA_USER["uncorrect"]["name"])
         email.send_keys(TEST_DATA_USER["uncorrect"]["email"])
         password.send_keys(TEST_DATA_USER["uncorrect"]["password"])
-        form_button = browser_def.find_element(
-            By.XPATH, ".//button[text()='Зарегистрироваться']")
-        form_button.click()
-        error = browser_def.find_element(
-            By.CLASS_NAME, 'input__error.text_type_main-default')
+        button.click()
+        error = browser_def.find_element(*RegistrationPage.err_password)
         assert error.text == 'Некорректный пароль'

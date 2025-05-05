@@ -1,9 +1,7 @@
 import time
 
-from selenium.webdriver.common.by import By
-
-
 from ..settings import urls
+from ..locators import Header, AccountPage
 
 
 class TestTrasitionAuthUser:
@@ -17,8 +15,7 @@ class TestTrasitionAuthUser:
         """
         тест: переход в личный кабинет с главной страницы
         """
-        button = browser_user_auth.find_element(
-            By.XPATH, ".//a[p[text()='Личный Кабинет']]")
+        button = browser_user_auth.find_element(*Header.personal_account)
         time.sleep(1)
         button.click()
         current_url = browser_user_auth.current_url
@@ -30,12 +27,10 @@ class TestTrasitionAuthUser:
         Переход из личного кабинета на конструктор бургера
         нажатием на кнопку конструктор
         """
-        button = browser_user_auth.find_element(
-            By.XPATH, ".//a[p[text()='Личный Кабинет']]")
+        button = browser_user_auth.find_element(*Header.personal_account)
         time.sleep(1)
         button.click()
-        button_construct = browser_user_auth.find_element(
-            By.XPATH, ".//a[p[text()='Конструктор']]")
+        button_construct = browser_user_auth.find_element(*Header.constuctor)
         time.sleep(1)
         button_construct.click()
         current_url = browser_user_auth.current_url
@@ -47,12 +42,10 @@ class TestTrasitionAuthUser:
         тест: переход из личного кабинета на главную страницу
         нажанием на логотип
         """
-        button = browser_user_auth.find_element(
-            By.XPATH, ".//a[p[text()='Личный Кабинет']]")
+        button = browser_user_auth.find_element(*Header.personal_account)
         time.sleep(1)
         button.click()
-        logo_button = browser_user_auth.find_element(
-            By.XPATH, ".//div[@class='AppHeader_header__logo__2D0X2']/a[@href='/']")
+        logo_button = browser_user_auth.find_element(*Header.logo)
         time.sleep(1)
         logo_button.click()
         current_url = browser_user_auth.current_url
@@ -62,8 +55,7 @@ class TestTrasitionAuthUser:
         """
         тест: переход из личного кабинета на домашнюю страницу
         """
-        button = browser_user_auth.find_element(
-            By.XPATH, ".//a[p[text()='Личный Кабинет']]")
+        button = browser_user_auth.find_element(*Header.personal_account)
         time.sleep(1)
         button.click()
         browser_user_auth.get(urls['/'])
@@ -74,13 +66,11 @@ class TestTrasitionAuthUser:
         """
         тест: выход из учетной записи
         """
-        button = browser_user_auth.find_element(
-            By.XPATH, ".//a[p[text()='Личный Кабинет']]")
+        button = browser_user_auth.find_element(*Header.personal_account)
         time.sleep(1)
         button.click()
         time.sleep(1)
-        exit_button = browser_user_auth.find_element(
-            By.XPATH, ".//button[text()='Выход']")
+        exit_button = browser_user_auth.find_element(*AccountPage.exit)
         time.sleep(1)
         exit_button.click()
         time.sleep(1)
