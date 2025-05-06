@@ -1,10 +1,10 @@
-import time
-
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 from ..settings import urls
-from ..locators import Header, HomePage, RegistrationPage, LoginPage
+from ..locators import (
+    Header, HomePage, RegistrationPage,
+    LoginPage, RecoveryPasswordPage)
+from ..utils import wait_click
 
 
 class TestRedirectLogIn:
@@ -16,9 +16,7 @@ class TestRedirectLogIn:
         после нажатия на кнопку войти на главной странице
         """
         browser_cls.get(urls['/'])
-        time.sleep(1)
-        loigin_buttom = browser_cls.find_element(*HomePage.log_in)
-        loigin_buttom.click()
+        wait_click(browser_cls, HomePage.log_in)
         current_url = browser_cls.current_url
         assert current_url == urls['login']
         try:
@@ -34,9 +32,7 @@ class TestRedirectLogIn:
         после нажатия на кнопку личный кабинет
         """
         browser_cls.get(urls['/'])
-        time.sleep(1)
-        loigin_buttom = browser_cls.find_element(*Header.personal_account)
-        loigin_buttom.click()
+        wait_click(browser_cls, Header.personal_account)
         current_url = browser_cls.current_url
         assert current_url == urls['login']
         try:
@@ -52,10 +48,7 @@ class TestRedirectLogIn:
         после нажанития на кнопку в форме регистрации
         """
         browser_cls.get(urls["register"])
-        time.sleep(1)
-        loigin_buttom = browser_cls.find_element(*RegistrationPage.enter)
-        loigin_buttom.click()
-        time.sleep(1)
+        wait_click(browser_cls, RegistrationPage.enter)
         current_url = browser_cls.current_url
         assert current_url == urls['login']
         try:
@@ -71,10 +64,7 @@ class TestRedirectLogIn:
         после нажатия на кнопку на странице восстановление пароля
         """
         browser_cls.get(urls['fogot-password'])
-        time.sleep(1)
-        login_button = browser_cls.find_element(
-            By.XPATH, ".//a[text()='Войти']")
-        login_button.click()
+        wait_click(browser_cls, RecoveryPasswordPage.enter)
         current_url = browser_cls.current_url
         assert current_url == urls['login']
         try:

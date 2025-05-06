@@ -2,6 +2,7 @@ import time
 
 from ..settings import urls
 from ..locators import Header, AccountPage
+from ..utils import wait_click
 
 
 class TestTrasitionAuthUser:
@@ -15,9 +16,7 @@ class TestTrasitionAuthUser:
         """
         тест: переход в личный кабинет с главной страницы
         """
-        button = browser_user_auth.find_element(*Header.personal_account)
-        time.sleep(1)
-        button.click()
+        wait_click(browser_user_auth, Header.personal_account)
         current_url = browser_user_auth.current_url
         assert current_url in urls['profile']
 
@@ -27,12 +26,8 @@ class TestTrasitionAuthUser:
         Переход из личного кабинета на конструктор бургера
         нажатием на кнопку конструктор
         """
-        button = browser_user_auth.find_element(*Header.personal_account)
-        time.sleep(1)
-        button.click()
-        button_construct = browser_user_auth.find_element(*Header.constuctor)
-        time.sleep(1)
-        button_construct.click()
+        wait_click(browser_user_auth, Header.personal_account)
+        wait_click(browser_user_auth, Header.constuctor)
         current_url = browser_user_auth.current_url
         assert current_url == urls['/']
 
@@ -42,12 +37,8 @@ class TestTrasitionAuthUser:
         тест: переход из личного кабинета на главную страницу
         нажанием на логотип
         """
-        button = browser_user_auth.find_element(*Header.personal_account)
-        time.sleep(1)
-        button.click()
-        logo_button = browser_user_auth.find_element(*Header.logo)
-        time.sleep(1)
-        logo_button.click()
+        wait_click(browser_user_auth, Header.personal_account)
+        wait_click(browser_user_auth, Header.logo)
         current_url = browser_user_auth.current_url
         assert current_url == urls['/']
 
@@ -55,9 +46,7 @@ class TestTrasitionAuthUser:
         """
         тест: переход из личного кабинета на домашнюю страницу
         """
-        button = browser_user_auth.find_element(*Header.personal_account)
-        time.sleep(1)
-        button.click()
+        wait_click(browser_user_auth, Header.personal_account)
         browser_user_auth.get(urls['/'])
         current_url = browser_user_auth.current_url
         assert current_url == urls['/']
@@ -66,13 +55,8 @@ class TestTrasitionAuthUser:
         """
         тест: выход из учетной записи
         """
-        button = browser_user_auth.find_element(*Header.personal_account)
-        time.sleep(1)
-        button.click()
-        time.sleep(1)
-        exit_button = browser_user_auth.find_element(*AccountPage.exit)
-        time.sleep(1)
-        exit_button.click()
-        time.sleep(1)
+        wait_click(browser_user_auth, Header.personal_account)
+        wait_click(browser_user_auth, AccountPage.exit)
+        time.sleep(1)  # тут не получается отказаться от явного ожидания
         current_url = browser_user_auth.current_url
         assert current_url in urls['login']

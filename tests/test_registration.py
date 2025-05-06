@@ -1,9 +1,8 @@
 
-import time
-
 from selenium.common.exceptions import NoSuchElementException
 
-from ..utils import generate_user_data, write_file_create_user
+from ..utils import (
+    generate_user_data, write_file_create_user, clear_field, wait_click)
 from ..settings import urls, TEST_DATA_USER
 from ..locators import RegistrationPage
 
@@ -25,23 +24,20 @@ class TestRegistrationUser:
         name = browser_def.find_element(*RegistrationPage.name)
         email = browser_def.find_element(*RegistrationPage.email)
         password = browser_def.find_element(*RegistrationPage.password)
-        button = browser_def.find_element(*RegistrationPage.register)
 
         while True:
-            name.clear()
-            email.clear()
-            password.clear()
+            clear_field(name)
+            clear_field(email)
+            clear_field(password)
             name.send_keys(user_data['username'])
             email.send_keys(user_data['email'])
             password.send_keys(user_data['password'])
-            button.click()
-            time.sleep(1)
+            wait_click(browser_def, RegistrationPage.register)
             try:
                 browser_def.find_element(*RegistrationPage.err_already_there)
                 user_data = generate_user_data()
             except NoSuchElementException:
                 break
-        time.sleep(1)
         write_file_create_user(
             user_data['username'], user_data['email'], user_data['password'])
         current_url = browser_def.current_url
@@ -56,10 +52,9 @@ class TestRegistrationUser:
         name = browser_def.find_element(*RegistrationPage.name)
         email = browser_def.find_element(*RegistrationPage.email)
         password = browser_def.find_element(*RegistrationPage.password)
-        button = browser_def.find_element(*RegistrationPage.register)
         name.send_keys(TEST_DATA_USER["uncorrect"]["name"])
         email.send_keys(TEST_DATA_USER["uncorrect"]["email"])
         password.send_keys(TEST_DATA_USER["uncorrect"]["password"])
-        button.click()
+        wait_click(browser_def, RegistrationPage.register)
         error = browser_def.find_element(*RegistrationPage.err_password)
         assert error.text == 'Некорректный пароль'

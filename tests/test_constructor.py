@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 
 from ..settings import urls
 from ..locators import Сonstructor
+from ..utils import wait_click
 
 
 class TestConstuctor:
@@ -12,12 +13,12 @@ class TestConstuctor:
         browser_cls.get(urls['/'])
 
         buttons = [
-            browser_cls.find_element(*Сonstructor.breads),
-            browser_cls.find_element(*Сonstructor.sauces),
-            browser_cls.find_element(*Сonstructor.toppings),
+            Сonstructor.breads,
+            Сonstructor.sauces,
+            Сonstructor.toppings,
         ]
 
         for button in buttons[::-1]:
-            button.click()
+            button = wait_click(browser_cls, button)
             update_parent = button.find_element(By.XPATH, "./..")
             assert 'current' in update_parent.get_attribute("class")

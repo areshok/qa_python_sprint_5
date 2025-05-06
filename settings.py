@@ -1,3 +1,5 @@
+import platform
+
 BASE_URL = "https://stellarburgers.nomoreparties.site"
 
 urls = {
@@ -22,3 +24,7 @@ DIAPASON_END = 100
 # Меняем параметр на  Chrome, FireFox
 # В зависимости какой браузер нам нужен
 BROWSER = 'FireFox'
+
+# определяет платформу на которой был произведен запуск тестов
+# Windows, Linux, Darwin
+OS = platform.system()

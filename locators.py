@@ -42,3 +42,9 @@ class RegistrationPage:
 
 class HomePage:
     log_in = (By.XPATH, ".//button[text()='Войти в аккаунт']")
+
+
+class RecoveryPasswordPage:
+    email = (By.XPATH, ".//label[text()='Email']/following-sibling::input")
+    recover = (By.XPATH, ".//button[text()='Восстановить']")
+    enter = (By.XPATH, ".//a[text()='Войти']")
