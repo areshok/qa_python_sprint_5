@@ -1,9 +1,8 @@
-import time
 import pytest
 
 from .settings import urls, TEST_DATA_USER
-from .utils import get_browser, browser_options
-from .locators import LoginPage
+from .utilits.utils import get_browser, browser_options, wait_click
+from .utilits.locators import LoginPage
 
 
 @pytest.fixture(scope='class')
@@ -29,10 +28,8 @@ def browser_user_auth():
     browser.get(urls["login"])
     email = browser.find_element(*LoginPage.email)
     password = browser.find_element(*LoginPage.password)
-    buttom = browser.find_element(*LoginPage.enter)
     email.send_keys(TEST_DATA_USER['created']['email'])
     password.send_keys(TEST_DATA_USER['created']['password'])
-    time.sleep(1)
-    buttom.click()
+    wait_click(browser, LoginPage.enter)
     yield browser
     browser.quit()

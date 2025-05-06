@@ -10,8 +10,11 @@ class Header:
 
 class Сonstructor:
     breads = (By.XPATH, ".//span[text()='Булки']")
+    parents_bread = (By.XPATH, ".//span[text()='Булки']/parent::div")
     sauces = (By.XPATH, ".//span[text()='Соусы']")
+    parent_sauces = (By.XPATH, ".//span[text()='Соусы']/parent::div")
     toppings = (By.XPATH, ".//span[text()='Начинки']")
+    parent_toppings = (By.XPATH, ".//span[text()='Начинки']/parent::div")
 
 
 class AccountPage:
@@ -38,6 +41,7 @@ class RegistrationPage:
     enter = (By.XPATH, ".//a[text()='Войти']")
     err_already_there = (By.XPATH, ".//p[text()='Такой пользователь уже существует']")
     err_password = (By.XPATH, ".//p[text()='Некорректный пароль']")
+    err_password_text = "Некорректный пароль"
 
 
 class HomePage:

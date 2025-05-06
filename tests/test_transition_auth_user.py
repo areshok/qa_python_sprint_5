@@ -1,8 +1,8 @@
 import time
 
 from ..settings import urls
-from ..locators import Header, AccountPage
-from ..utils import wait_click
+from ..utilits.locators import Header, AccountPage
+from ..utilits.utils import wait_click
 
 
 class TestTrasitionAuthUser:

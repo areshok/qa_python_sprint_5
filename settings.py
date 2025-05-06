@@ -1,4 +1,10 @@
 import platform
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+USERS_FILE = os.path.join(BASE_DIR, "data/users.csv")
+CREATED_USERS = os.path.join(BASE_DIR, "data/created_user.txt")
 
 BASE_URL = "https://stellarburgers.nomoreparties.site"
 
@@ -12,19 +18,18 @@ urls = {
 }
 
 TEST_DATA_USER = {
-    "correct": {"name": "ars", "email": "ars@ars.ru", "password": "123456"},
-    "uncorrect": {"name": "2ars", "email": "2ars@ars.ru", "password": "12345"},
     "created": {"name": "ars", "email": "ars@ars.ru", "password": "123456"}
 }
 
 
-DIAPASON_START = 0
-DIAPASON_END = 100
-
 # Меняем параметр на  Chrome, FireFox
 # В зависимости какой браузер нам нужен
-BROWSER = 'FireFox'
+BROWSER = 'Chrome'
 
 # определяет платформу на которой был произведен запуск тестов
 # Windows, Linux, Darwin
 OS = platform.system()
+
+TIME_MAX = 10
+
+EMAILS = ["@yandex.ru", "@mail.ru", "@gmail.com"]

@@ -1,10 +1,8 @@
-from selenium.common.exceptions import NoSuchElementException
-
 from ..settings import urls
-from ..locators import (
+from ..utilits.locators import (
     Header, HomePage, RegistrationPage,
     LoginPage, RecoveryPasswordPage)
-from ..utils import wait_click
+from ..utilits.utils import wait_click, wait_element
 
 
 class TestRedirectLogIn:
@@ -18,13 +16,8 @@ class TestRedirectLogIn:
         browser_cls.get(urls['/'])
         wait_click(browser_cls, HomePage.log_in)
         current_url = browser_cls.current_url
+        wait_element(browser_cls, LoginPage.recover_password)
         assert current_url == urls['login']
-        try:
-            browser_cls.find_element(*LoginPage.email)
-            browser_cls.find_element(*LoginPage.password)
-            browser_cls.find_element(*LoginPage.enter)
-        except NoSuchElementException:
-            assert False, "Форма входа не найдена"
 
     def test_redirect_log_in_button_personal_account(self, browser_cls):
         """
@@ -34,13 +27,8 @@ class TestRedirectLogIn:
         browser_cls.get(urls['/'])
         wait_click(browser_cls, Header.personal_account)
         current_url = browser_cls.current_url
+        wait_element(browser_cls, LoginPage.recover_password)
         assert current_url == urls['login']
-        try:
-            browser_cls.find_element(*LoginPage.email)
-            browser_cls.find_element(*LoginPage.password)
-            browser_cls.find_element(*LoginPage.enter)
-        except NoSuchElementException:
-            assert False, "Форма входа не найдена"
 
     def test_redirect_log_in_button_registration_form(self, browser_cls):
         """
@@ -50,13 +38,8 @@ class TestRedirectLogIn:
         browser_cls.get(urls["register"])
         wait_click(browser_cls, RegistrationPage.enter)
         current_url = browser_cls.current_url
+        wait_element(browser_cls, LoginPage.recover_password)
         assert current_url == urls['login']
-        try:
-            browser_cls.find_element(*LoginPage.email)
-            browser_cls.find_element(*LoginPage.password)
-            browser_cls.find_element(*LoginPage.enter)
-        except NoSuchElementException:
-            assert False, "Форма входа не найдена"
 
     def test_redirect_log_in_on_buttom_password_fogot(self, browser_cls):
         """
@@ -66,10 +49,5 @@ class TestRedirectLogIn:
         browser_cls.get(urls['fogot-password'])
         wait_click(browser_cls, RecoveryPasswordPage.enter)
         current_url = browser_cls.current_url
+        wait_element(browser_cls, LoginPage.recover_password)
         assert current_url == urls['login']
-        try:
-            browser_cls.find_element(*LoginPage.email)
-            browser_cls.find_element(*LoginPage.password)
-            browser_cls.find_element(*LoginPage.enter)
-        except NoSuchElementException:
-            assert False, "Форма входа не найдена"
